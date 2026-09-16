@@ -12,6 +12,7 @@ import { PlayerAvatar } from "@/components/game/PlayerAvatar";
 import { ShareLink } from "@/components/game/ShareLink";
 import { TOTAL_QUESTIONS } from "@/game/questions";
 import { useGame } from "@/hooks/useGame";
+import { decodeOffer } from "@/lib/webrtc/serialization";
 import { signaling } from "@/lib/webrtc/signaling";
 import type { SignalPayload } from "@/types/game";
 
@@ -184,14 +185,9 @@ function decodeManual(raw: string) {
   try {
     const url = new URL(raw);
     const hash = new URLSearchParams(url.hash.replace(/^#/, "")).get("o");
-    if (hash) return decodeOfferSafe(hash);
+    if (hash) return decodeOffer(hash);
   } catch {
-    /* not a URL, treat as payload */
+    /* not a URL, treat as a pasted payload */
   }
-  return decodeOfferSafe(raw);
-}
-
-function decodeOfferSafe(raw: string) {
-  const { decodeOffer } = require("@/lib/webrtc/serialization") as typeof import("@/lib/webrtc/serialization");
   return decodeOffer(raw);
 }

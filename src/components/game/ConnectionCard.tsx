@@ -6,11 +6,11 @@ import type { ConnectionStatus as Status } from "@/types/game";
 
 interface ConnectionCardProps {
   title: string;
-  description?: string;
-  status?: Status;
+  description?: string | undefined;
+  status?: Status | undefined;
   children?: ReactNode;
   footer?: ReactNode;
-  className?: string;
+  className?: string | undefined;
 }
 
 export function ConnectionCard({

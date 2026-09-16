@@ -31,7 +31,7 @@ export const SCORE_RATINGS: ScoreRating[] = [
 
 export const getRating = (percentage: number): ScoreRating =>
   SCORE_RATINGS.find((rating) => percentage >= rating.minPercentage) ??
-  SCORE_RATINGS[SCORE_RATINGS.length - 1];
+  SCORE_RATINGS[SCORE_RATINGS.length - 1]!;
 
 export const PHASE_COPY = {
   answering: {

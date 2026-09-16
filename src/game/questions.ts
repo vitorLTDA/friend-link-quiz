@@ -9,7 +9,7 @@ const q = (
   id,
   emoji,
   question,
-  options: options.map((text, i) => ({ id: ["A", "B", "C", "D"][i], text })),
+  options: options.map((text, i) => ({ id: ["A", "B", "C", "D"][i]!, text })),
 });
 
 export const QUESTIONS: Question[] = [

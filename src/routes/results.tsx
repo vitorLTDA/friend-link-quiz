@@ -28,14 +28,14 @@ export const Route = createFileRoute("/results")({
 });
 
 function ResultsPage() {
-  const { state, score, connection, leaveGame } = useGame();
+  const { state, hydrated, score, connection, leaveGame } = useGame();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (state.phase === "lobby" && !connection.isConnected) {
+    if (hydrated && state.phase === "lobby" && !connection.isConnected) {
       navigate({ to: "/", replace: true });
     }
-  }, [state.phase, connection.isConnected, navigate]);
+  }, [hydrated, state.phase, connection.isConnected, navigate]);
 
   if (state.phase !== "results") {
     return (

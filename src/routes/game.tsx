@@ -31,15 +31,16 @@ export const Route = createFileRoute("/game")({
 });
 
 function GamePage() {
-  const { state, connection, currentQuestion, selectedOptionId, select, next } = useGame();
+  const { state, hydrated, connection, currentQuestion, selectedOptionId, select, next } =
+    useGame();
   const navigate = useNavigate();
 
   // Route guard: no game in this tab -> back to the landing page.
   useEffect(() => {
-    if (state.phase === "lobby" && !connection.isConnected && !connection.inviteLink) {
+    if (hydrated && state.phase === "lobby" && !connection.isConnected && !connection.inviteLink) {
       navigate({ to: "/", replace: true });
     }
-  }, [state.phase, connection.isConnected, connection.inviteLink, navigate]);
+  }, [hydrated, state.phase, connection.isConnected, connection.inviteLink, navigate]);
 
   useEffect(() => {
     if (state.phase === "results") navigate({ to: "/results", replace: true });

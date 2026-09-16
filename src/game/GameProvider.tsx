@@ -115,7 +115,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     connection.reset();
   }, [connection]);
 
-  const currentQuestion = QUESTIONS[Math.min(state.currentQuestionIndex, QUESTIONS.length - 1)];
+  const currentQuestion =
+    QUESTIONS[Math.min(Math.max(state.currentQuestionIndex, 0), QUESTIONS.length - 1)] ??
+    QUESTIONS[0]!;
 
   const selectedOptionId =
     state.phase === "guessing"

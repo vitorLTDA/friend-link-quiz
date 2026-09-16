@@ -1,4 +1,13 @@
-import { createContext, useCallback, useEffect, useMemo, useReducer, useRef, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import {
   clearPersistedState,
@@ -14,6 +23,8 @@ import type { GameMessage, GameState, PlayerRole, ScoreResult, SignalPayload } f
 
 export interface GameContextValue {
   state: GameState;
+  /** true once the provider tried to recover a persisted session */
+  hydrated: boolean;
   connection: ReturnType<typeof useWebRTC>;
   currentQuestion: (typeof QUESTIONS)[number];
   selectedOptionId: string | null;
@@ -39,11 +50,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const connection = useWebRTC(handleRemote);
+  const [hydrated, setHydrated] = useState(false);
 
   // Recover a refreshed session's local progress.
   useEffect(() => {
     const persisted = loadPersistedState();
     if (persisted) dispatch({ type: "HYDRATE", state: persisted });
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
@@ -131,6 +144,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const value: GameContextValue = {
     state,
+    hydrated,
     connection,
     currentQuestion,
     selectedOptionId,
